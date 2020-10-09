@@ -33,7 +33,7 @@ def add_to_cart(request, pk):
 
 def adminPanel(request):
 	form = ItemForm()
-	context = {'form':form}
+	
 	# Delete item
 	# Not implemented yet
 
@@ -48,10 +48,10 @@ def adminPanel(request):
 			form.save()
 			item = form.cleaned_data.get('productName')
 			messages.success(request, 'Item added to shop: ' + item)
-
+			
 			return redirect('/')
 
-
+	context = {'form':form}
 	return render(request, 'ShopTemplates/adminPanel.html', context)
 		
 		

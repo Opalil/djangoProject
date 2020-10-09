@@ -31,16 +31,25 @@
                 </div>
             </nav>
         </div>
-        
+        <div class="div-sort">
+            <h4>Sort products</h4>
+            <select style="margin-bottom: 20px;">
+                <option>Price, low to high</option>
+                <option>Price, high to low</option>
+                <option>Ascending by product name</option>
+                <option>Descending by product name</option>
+            </select>
+        </div>
         <div class="row">
             {% for product in products %}
             <div class="col-lg-4">
-                <div class="box-element product" style="background-color: aqua;">
-                    <h4>{{ product.productName }}</h4>
+                <div class="card bg-light" style="width: 25rem;">
+                    <div>
+                    <h5>{{ product.productName }}</h5>
                     <h4 style="display: inline-block; ">{{product.productPrice}}€</h4>
-                    <p class="item-description">{{ product.app_productdesc }}</p>
+                    <p>Click View for more info</p>
                     <a class="btn btn-outline-success" href="{% url 'item' product %}">View</a>
-                    <hr>
+                    </div>
                 </div>>
             </div>
             {% endfor %}
