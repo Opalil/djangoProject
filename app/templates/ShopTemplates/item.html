@@ -1,0 +1,34 @@
+{% extends 'ShopTemplates/index.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-4">
+        <div>
+            <card>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="form-group" style="margin-bottom: 30px">
+                    <label for="productId">Product specifying ID</label>
+                    {{ item.productId }}
+                </div>
+                <div class="form-group" style="margin-bottom: 30px">
+                    <label for="productName">Product name</label>
+                    {{ item.productName }}
+                </div>
+                <div class="form-group" style="margin-bottom: 30px">
+                    <label for="productprice">Price</label>
+                    {{ item.productPrice }}
+                </div>
+                <div class="form-group" style="margin-bottom: 30px">
+                    <label for="app_productdesc">Product description</label>
+                    {{ item.app_productdesc }}
+                </div>
+            
+                <a class="btn btn-outline-success" href="{% url 'add_to_cart' item.productId %}">Add to cart</a>
+            </form>
+            </card>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock content %}

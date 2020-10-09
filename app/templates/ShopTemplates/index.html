@@ -1,0 +1,57 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <title>
+            Awesome title here
+        </title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+    </head>
+    <body>
+        <div class="Navigation mb-4">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <h3 class="navbar-title">Verkkokauppa</h3>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'cart' %}">Shopping Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'adminPanel' %}">Add item</a>
+                        </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                      </form>
+                </div>
+            </nav>
+        </div>
+        
+        <div class="row">
+            {% for product in products %}
+            <div class="col-lg-4">
+                <div class="box-element product" style="background-color: aqua;">
+                    <h4>{{ product.productName }}</h4>
+                    <h4 style="display: inline-block; ">{{product.productPrice}}€</h4>
+                    <p class="item-description">{{ product.app_productdesc }}</p>
+                    <a class="btn btn-outline-success" href="{% url 'item' product %}">View</a>
+                    <hr>
+                </div>>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="container">
+            {% block content %}
+
+            {% endblock content %}
+        </div>
+        
+    </body>
+</html>
+

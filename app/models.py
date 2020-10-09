@@ -4,20 +4,20 @@ from django.db import models
 
 
 class Product(models.Model):
-    productId = models.IntegerField(primary_key=True)
+    productId = models.CharField(max_length=10, primary_key=True)
     productName = models.CharField(max_length=45)
-    creationtime = models.DateTimeField()
     productPrice = models.DecimalField(max_digits=4, decimal_places=2)
+    app_productdesc = models.CharField(max_length=150)
 
     class Meta:
         db_table: 'product'
 
 
     def __str__(self):
-        return self.productName
+        return self.productId
 
 class ProductCategory(models.Model):
-    categoryId = models.IntegerField(primary_key=True)
+    categoryId = models.AutoField(primary_key=True)
     categoryName = models.CharField(max_length=45)
     creationtime = models.DateTimeField()
 
