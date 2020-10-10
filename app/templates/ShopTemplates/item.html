@@ -6,14 +6,21 @@
             <card>
             <form method="POST" action="">
                 {% csrf_token %}
+                
                 <div class="card bg-light" style="width: 25rem;">
                     <div>
-                        <h5>{{ item.productName }}</h5>
-                        <h4 style="display: inline-block; ">{{item.productPrice}}€</h4>
-                        <p class="item-description">{{ item.app_productdesc }}</p>
+                        <h5 id="item_id">{{ item.productId }}</h5>                      
                     </div>
-                           
-                <a class="btn btn-outline-success" href="{% url 'add_to_cart' item.productId %}">Add to cart</a>
+                    <div>
+                        <h5 id="item_name">{{ item.productName }}</h5>
+                    </div>
+                    <div>
+                        <h4 style="display: inline-block; ">{{item.productPrice}}€</h4>
+                    </div>
+                    <div>
+                        <p id="item_description">{{ item.app_productdesc }}</p>
+                    </div> 
+                <a data-id="{{ item.productId}}"><button id="update" class="btn btn-primary update">Add to cart</button></a>
                 </div>
             </form>
             </card>

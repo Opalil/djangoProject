@@ -5,6 +5,8 @@
         <title>
             Awesome title here
         </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'js/jquery.js' %}"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
     </head>
@@ -34,10 +36,10 @@
         <div class="div-sort">
             <h4>Sort products</h4>
             <select style="margin-bottom: 20px;">
-                <option>Price, low to high</option>
-                <option>Price, high to low</option>
-                <option>Ascending by product name</option>
-                <option>Descending by product name</option>
+                <option value=1>Price, low to high</option>
+                <option value=2>Price, high to low</option>
+                <option value=3>Ascending by product name</option>
+                <option value=4>Descending by product name</option>
             </select>
         </div>
         <div class="row">
@@ -49,6 +51,7 @@
                     <h4 style="display: inline-block; ">{{product.productPrice}}€</h4>
                     <p>Click View for more info</p>
                     <a class="btn btn-outline-success" href="{% url 'item' product %}">View</a>
+                    <a data = "{{ product.productId}}" class="btn btn-outline-success">Add to cart</a>
                     </div>
                 </div>>
             </div>

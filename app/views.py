@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import *
-from .forms import ItemForm
+from .forms import ItemForm, CartForm
 from django.contrib import messages
-
-from datetime import datetime
+from django.http import JsonResponse
 
 def index(request):
 	products = Product.objects.all()
@@ -13,39 +12,39 @@ def index(request):
 
 
 def cart(request):
-	context = {}
-
+	form = ItemForm()
+	if request.method == 'POST':
+		form = ItemForm(request)
+	context = {'form':form}
 	return render(request, 'ShopTemplates/cart.html', context)
 
 def item(request, pk):
 	item = Product.objects.get(productId = pk)
 
-	#form = ItemForm(request.POST, instance = item)
+	form = CartForm(request.POST)
 	
 	#context = {'form':form}
-	context = {'item':item}
+	context = {'item':item, 'form':form}
 	return render(request, 'ShopTemplates/item.html', context)
 
-def add_to_cart(request, pk):
-	product = Product.objects.get(productId = pk)
-	#context = {'product':product}
-	return redirect('/')
+def add_to_cart(request):
+	cart = CartForm(request)
+	productId = request.GET('productId')
+	#productName = request.GET('productName')
+	product = Product.objects.get(id = productId)
+	cart.add(product=product)
+
+	return JsonResponse('')
 
 def adminPanel(request):
 	form = ItemForm()
-	
-	# Delete item
-	# Not implemented yet
-
-	# Update existing item (e.g. price?)
-	# Not implemented yet
-
 	# Add item
 	if request.method == 'POST':
 		form = ItemForm(request.POST)
 
 		if form.is_valid():
-			form.save()
+			instance = form.save(commit=False)
+			instance.save()
 			item = form.cleaned_data.get('productName')
 			messages.success(request, 'Item added to shop: ' + item)
 			
