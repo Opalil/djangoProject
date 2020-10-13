@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Product
+from .models import Product, Cart
 
 CATEGORY_CHOICES = [
     ('1','Sport wear'),
@@ -21,11 +21,11 @@ class ItemForm(ModelForm):
     
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ['id']
 
 class CartForm(forms.Form):
     productId = forms.CharField(label="Product Id", max_length=10)
-    productPrice = forms.DecimalField(label="Price", max_digits=6, decimal_places=4)
 
     class Meta:
+        model = Cart
         fields = '__all__'

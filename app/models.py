@@ -9,9 +9,9 @@ CATEGORY_CHOICES = [
 ]
 
 class Product(models.Model):
-    productId = models.CharField(max_length=10, primary_key=True)
+    productId = models.CharField(max_length=10)
     productName = models.CharField(max_length=45)
-    productPrice = models.DecimalField(max_digits=4, decimal_places=2)
+    productPrice = models.DecimalField(max_digits=4, decimal_places=0)
     app_productdesc = models.CharField(max_length=150)
     productCategory = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
 
@@ -20,21 +20,39 @@ class Product(models.Model):
 
 
     def __str__(self):
-        return self.productId
+        return str(self.id)
 
 
-
-
-
-class ProductCategory(models.Model):
-    categoryId = models.AutoField(primary_key=True)
-    categoryName = models.CharField(max_length=45)
-    creationtime = models.DateTimeField()
-
+class Cart(models.Model):
+    cartId = models.CharField(max_length=10, null=True)
+    
     def __str__(self):
-        return self.categoryName  
+        return str(self.id)
 
-class ProductCategories(models.Model):
-    productId = models.IntegerField
-    elementId = models.IntegerField
-    categoryId = models.IntegerField
+    @property
+    def get_items(self):
+        items = self.cartitem_set.all()
+        return items
+
+    @property
+    def get_total(self):
+        cItems = self.cartitem_set.all()
+        total = sum([i.get_total_price for i in cItems])
+        return total    
+
+    class Meta:
+        db_table: 'cart'
+
+
+class CartItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Cart, on_delete=models.SET_NULL, null=True)
+    quantity = models.IntegerField(default=1, null=True, blank=True)
+
+    @property
+    def get_total_price(self):
+        price = self.product.productPrice * self.quantity
+        return price
+
+    class Meta:
+        db_table: 'cartitem'

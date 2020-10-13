@@ -4,7 +4,7 @@
     <div class="col-lg-4">
         <div>
             <card>
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'item' item %}" id="form">
                 {% csrf_token %}
                 
                 <div class="card bg-light" style="width: 25rem;">
@@ -15,13 +15,15 @@
                         <h5 id="item_name">{{ item.productName }}</h5>
                     </div>
                     <div>
-                        <h4 style="display: inline-block; ">{{item.productPrice}}€</h4>
+                        <h4 id="item-price" style="display: inline-block; ">{{item.productPrice}}€</h4>
                     </div>
                     <div>
                         <p id="item_description">{{ item.app_productdesc }}</p>
                     </div> 
-                <a data-id="{{ item.productId}}"><button id="update" class="btn btn-primary update">Add to cart</button></a>
+                    <input type="submit" class="btn btn-outline-success" value="Add to shopping cart" />
+                    <a class="btn btn-outline-success" href="/">Back to store</a>                  
                 </div>
+            
             </form>
             </card>
         </div>

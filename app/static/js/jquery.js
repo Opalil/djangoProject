@@ -1,24 +1,17 @@
-//const { data } = require("jquery");
+    var frm = $('#form')
 
-$(document).ready(function(){
-    $("#update").click(function() {
-        //alert("Tuote lisätty ostoskoriin!")
-        var product_id = $(this).attr('data-id');
-        //var product_name = $('#item_name'+product_id.val());
-
+    frm.submit(function(){
+        e.preventDefault();
+       
         $.ajax({
-            url: '/cart/',
-            dataType: 'html',
+            url: frm.attr('action'),
             type: 'POST',
-            data: {productId : product_id},
+            data:  frm.serialize(),            
             success: function(data){
-                
-                $('#get-data'.html(data))
+                alert("Onnistui?");
             }
             
         });
-        alert("Tuote lisätty ostoskoriin: " + product_id)
-        //$('#table tr:last').after('<tr>{product_id}</tr><tr>{product_name}</tr>');
+
     });
-});
 

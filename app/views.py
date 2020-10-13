@@ -2,7 +2,11 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import ItemForm, CartForm
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+import json
+from django.core import serializers
+
+from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
 	products = Product.objects.all()
@@ -10,31 +14,27 @@ def index(request):
 	context = {'products':products}
 	return render(request, 'ShopTemplates/index.html', context)
 
-
+@csrf_exempt #Workaround at the moment
 def cart(request):
-	form = ItemForm()
-	if request.method == 'POST':
-		form = ItemForm(request)
-	context = {'form':form}
+	cart, created = Cart.objects.get_or_create()
+	context = {'cart': cart}
 	return render(request, 'ShopTemplates/cart.html', context)
 
 def item(request, pk):
-	item = Product.objects.get(productId = pk)
+	item = Product.objects.get(id = pk)
+	if request.method == 'POST':
+		product = Product.objects.get(id = pk)
+		try: #Workaround at the moment
+			order = Cart.objects.get(pk=1)
+		except:
+			order, created = Cart.objects.get_or_create()
 
-	form = CartForm(request.POST)
-	
-	#context = {'form':form}
-	context = {'item':item, 'form':form}
+		cItem, created = CartItem.objects.get_or_create(product = product, order = order)
+		cItem.save()
+
+		return redirect('/')
+	context = {'item':item}
 	return render(request, 'ShopTemplates/item.html', context)
-
-def add_to_cart(request):
-	cart = CartForm(request)
-	productId = request.GET('productId')
-	#productName = request.GET('productName')
-	product = Product.objects.get(id = productId)
-	cart.add(product=product)
-
-	return JsonResponse('')
 
 def adminPanel(request):
 	form = ItemForm()

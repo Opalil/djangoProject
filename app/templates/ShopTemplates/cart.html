@@ -2,8 +2,29 @@
 {% block content %}
 <div>
     <h3>SHOPPING CART</h3>
-    <div id="get-data" class="container">
-
+    {% csrf_token %}
+    <div id="get-data" class="row">
+        <div class="col-md">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <h4>Total amount: {{ cart.get_total }}€</h4>
+                    <tr>                       
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Product ID</th>
+                        <th>Quantity</th>
+                    </tr>
+                    {% for cart in cart.cartitem_set.all %}
+                    <tr>
+                        <th>{{ cart.product.productName }}</th>
+                        <th>{{ cart.product.productPrice }}€</th>
+                        <th>{{ cart.product.productId }}</th>
+                        <th>{{ cart.product.quantity }}</th>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content%}
