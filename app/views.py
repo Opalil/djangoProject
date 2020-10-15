@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import ItemForm, CartForm
 from django.contrib import messages
+from django.template.loader import render_to_string
 from django.http import JsonResponse, HttpResponse
 import json
 from django.core import serializers
@@ -52,6 +53,29 @@ def adminPanel(request):
 
 	context = {'form':form}
 	return render(request, 'ShopTemplates/adminPanel.html', context)
+
+
+def search_view(request):
+	context = {}
+	url_param = request.GET("q")
+
+	if url_param:
+		products = Product.objects.filter(name__icontains=url_param)
+	else:
+		products = Product.objects.all()
+		
+	context["products"] = products
+	if request.is_ajax():
+
+		html = render_to_string(
+			template_name = "search_result.html", 
+			context = {'products':products}
+		)
+		data_dict = {"html_from_view": html}
+		return JsonResponse(data_dict, safe=False)
+
+
+	return render(request, 'ShopTemplates/search_view.html', context)
 		
 		
 		

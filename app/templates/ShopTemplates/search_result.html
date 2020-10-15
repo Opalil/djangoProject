@@ -1,0 +1,11 @@
+{% if products %}
+    <ul>
+        {% for product in products %}
+        <li>
+            {{ product.productName }}
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Do something...</p>
+{% endif %}
