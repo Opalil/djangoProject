@@ -12,7 +12,7 @@ CATEGORY_CHOICES = [
 class ItemForm(ModelForm):
     productId = forms.CharField(label="Product Id", max_length=10)
     productName = forms.CharField(label="Name", max_length=45)
-    productPrice = forms.DecimalField(label="Price", max_digits=6, decimal_places=4)
+    productPrice = forms.DecimalField(label="Price", max_digits=4, decimal_places=0)
     app_productdesc = forms.CharField(label="Description", max_length=150)
     productCategory = forms.CharField(
         label="Product category", 

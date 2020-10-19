@@ -1,11 +1,22 @@
+{% extends 'ShopTemplates/index.html' %}
+
+{% block content %}
 {% if products %}
-    <ul>
-        {% for product in products %}
-        <li>
-            {{ product.productName }}
-        </li>
+    <div class="row">
+        {% for product in products %}       
+        <div class="col-lg-4">
+            <div class="card bg-light" style="width: 25rem;">
+                <div>
+                    <h5>{{ product.productName }}</h5>
+                    <h4 style="display: inline-block; ">{{product.productPrice}}€</h4>
+                    <p>Click View for more info</p>
+                    <a class="btn btn-outline-success" href="{% url 'item' product %}">View</a>                  
+                </div>
+            </div>>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
 {% else %}
-    <p>Do something...</p>
+    <p>No products found with given input... Check your spelling</p>
 {% endif %}
+{% endblock %}

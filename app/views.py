@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import ItemForm, CartForm
 from django.contrib import messages
-from django.template.loader import render_to_string
 from django.http import JsonResponse, HttpResponse
 import json
 from django.core import serializers
@@ -57,28 +56,25 @@ def adminPanel(request):
 
 def search_view(request):
 	context = {}
-	url_param = request.GET("q")
-
-	if url_param:
-		products = Product.objects.filter(name__icontains=url_param)
+	query = request.GET.get("q")
+	if query:
+		products = Product.objects.filter(productName__icontains=query)
+		# Kokeillaan id:llä seuraavaksi
+		if products is None:
+			products = Product.objects.filter(productId__icontains=query)
 	else:
 		products = Product.objects.all()
+	context = {'products':products}
+	
+	return render(request, 'ShopTemplates/search_result.html', context)
 		
-	context["products"] = products
-	if request.is_ajax():
+def delete_product(request, pk):
 
-		html = render_to_string(
-			template_name = "search_result.html", 
-			context = {'products':products}
-		)
-		data_dict = {"html_from_view": html}
-		return JsonResponse(data_dict, safe=False)
+	return render(request, 'ShopTemplates/adminPanel.html', context)		
 
+def delete_from_cart(request):
 
-	return render(request, 'ShopTemplates/search_view.html', context)
-		
-		
-		
+	return render(request, 'ShopTemplates/cart.html', context)		
 
 
 

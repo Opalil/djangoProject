@@ -79,7 +79,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'production',
-        'USER': 'opalil',
+        'USER': 'opaadmin',
         'PASSWORD': 'password#12345',
         'HOST': 'localhost',
         'PORT': '3306',

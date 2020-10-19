@@ -17,7 +17,7 @@ frm.submit(function(){
 
 const user_input = $("#user-input")
 const search = $("#search")
-const endpoint = '/search_view/'
+const endpoint = ''
 const rep_div = $("#replaceable-content")
 
 let query = function(endpoint, request_parameters) {
@@ -26,6 +26,7 @@ let query = function(endpoint, request_parameters) {
         rep_div.fadeTo('slow', 0).promise().then(() => {
             rep_div.html(response['html_from_view'])
             rep_div.fadeTo('slow', 1)
+            console.log("WHAT?")
             
         })
     })
